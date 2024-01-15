@@ -12,7 +12,9 @@ const LoginForm = () => {
 
   const onFinish = async (values: LoginFieldType) => {
     try {
-      await login(values);
+      const result = await login(values);
+      console.log('result:', result);
+      localStorage.setItem('token', (result as any).access_token);
       message.success('注册成功，稍后跳转主页');
       setUserName('wuxuwei');
       setTimeout(() => {
