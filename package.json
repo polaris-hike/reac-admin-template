@@ -17,6 +17,7 @@
   "dependencies": {
     "@ant-design/cssinjs": "^1.18.2",
     "antd": "^5.12.8",
+    "axios": "^1.6.5",
     "classnames": "^2.5.1",
     "dayjs": "^1.11.10",
     "deepmerge": "^4.3.1",

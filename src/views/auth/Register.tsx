@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import $styles from './login.module.css';
-import CredentialForm from './LoginForm';
+import CredentialForm from './RegisterForm';
 import bgimg from '@/assets/images/login-box-bg.svg';
 
 const Login = () => {
@@ -20,7 +20,7 @@ const Login = () => {
             </div>
           </div>
           <div className={classnames($styles.rightBlock, 'enter-x')}>
-            <h2>Login</h2>
+            <h2>Register</h2>
             <div className={$styles.formBlock}>
               <CredentialForm />
             </div>
