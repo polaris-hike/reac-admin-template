@@ -25,7 +25,7 @@ const LoginForm = () => {
       }, 2000);
     } catch (error) {
       console.error(error);
-      message.error('登录失败，请稍后重试');
+      message.error('登录失败，请稍后重试!');
     }
   };
 
