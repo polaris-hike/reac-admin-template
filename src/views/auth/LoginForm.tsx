@@ -10,12 +10,15 @@ const LoginForm = () => {
   );
   const navigate = useNavigate();
 
+  const toRegister = () => {
+    navigate('/register');
+  };
+
   const onFinish = async (values: LoginFieldType) => {
     try {
       const result = await login(values);
-      console.log('result:', result);
-      localStorage.setItem('token', (result as any).access_token);
-      message.success('注册成功，稍后跳转主页');
+      localStorage.setItem('token', (result as any).token);
+      message.success('登录成功，稍后跳转主页');
       setUserName('wuxuwei');
       setTimeout(() => {
         navigate('/home');
@@ -27,7 +30,7 @@ const LoginForm = () => {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    console.error('Failed:', errorInfo);
   };
 
   return (
@@ -65,6 +68,9 @@ const LoginForm = () => {
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">
             Submit
+          </Button>
+          <Button type="primary" onClick={toRegister}>
+            to register
           </Button>
         </Form.Item>
       </Form>
