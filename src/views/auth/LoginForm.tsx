@@ -18,7 +18,7 @@ const LoginForm = () => {
     try {
       const result = await login(values);
       localStorage.setItem('token', (result as any).token);
-      message.success('注册成功，稍后跳转主页');
+      message.success('登录成功，稍后跳转主页');
       setUserName('wuxuwei');
       setTimeout(() => {
         navigate('/home');
@@ -30,7 +30,7 @@ const LoginForm = () => {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    console.error('Failed:', errorInfo);
   };
 
   return (
