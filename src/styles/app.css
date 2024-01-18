@@ -2,5 +2,5 @@ html,
 body,
 #root,
 .ant-app {
-    @apply h-[100vh] w-full flex p-0 m-0;
+    @apply w-full flex p-0 m-0;
 }

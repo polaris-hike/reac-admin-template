@@ -29,6 +29,9 @@ dependencies:
   react:
     specifier: ^18.2.0
     version: registry.npmmirror.com/react@18.2.0
+  react-countup:
+    specifier: ^6.5.0
+    version: 6.5.0(react@18.2.0)
   react-dom:
     specifier: ^18.2.0
     version: registry.npmmirror.com/react-dom@18.2.0(react@18.2.0)
@@ -241,6 +244,10 @@ packages:
   /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==, tarball: https://registry.npmmirror.com/color-name/-/color-name-1.1.4.tgz}
     dev: true
+
+  /countup.js@2.8.0:
+    resolution: {integrity: sha512-f7xEhX0awl4NOElHulrl4XRfKoNH3rB+qfNSZZyjSZhaAoUk6elvhH+MNxMmlmuUJ2/QNTWPSA7U4mNtIAKljQ==, tarball: https://registry.npmmirror.com/countup.js/-/countup.js-2.8.0.tgz}
+    dev: false
 
   /emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==, tarball: https://registry.npmmirror.com/emoji-regex/-/emoji-regex-8.0.0.tgz}
@@ -455,6 +462,15 @@ packages:
       react: registry.npmmirror.com/react@18.2.0
       react-dom: registry.npmmirror.com/react-dom@18.2.0(react@18.2.0)
       react-is: 18.2.0
+    dev: false
+
+  /react-countup@6.5.0(react@18.2.0):
+    resolution: {integrity: sha512-26JFHbUHsHxu8SetkJwWVIUEkaNnrj4P9msxNGC8tS4hGr1bngRzbwtJYOgXD2G/ItjaKJ3JfYKd85sw7qRVeA==, tarball: https://registry.npmmirror.com/react-countup/-/react-countup-6.5.0.tgz}
+    peerDependencies:
+      react: '>= 16.3.0'
+    dependencies:
+      countup.js: 2.8.0
+      react: registry.npmmirror.com/react@18.2.0
     dev: false
 
   /react-is@18.2.0:
