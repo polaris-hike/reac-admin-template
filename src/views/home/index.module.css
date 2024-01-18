@@ -1,3 +1,19 @@
 .container {
   @apply  w-full h-full flex;
 }
+
+.header {
+  @apply flex justify-between;
+  .headerLeft {
+    @apply flex items-center;
+    .avator {
+      @apply w-[64px] h-[64px] rounded-full mr-3;
+     }
+     .welcome {
+      @apply flex flex-col justify-between  h-full;
+     }
+  }
+  .headerRight {
+    @apply flex items-center w-1/3;
+  }
+}
