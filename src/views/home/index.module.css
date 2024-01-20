@@ -17,3 +17,9 @@
     @apply flex items-center w-1/3;
   }
 }
+
+.content {
+  > section {
+    @apply flex-1 bg-white first:mr-10;
+  }
+}
