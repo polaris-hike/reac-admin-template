@@ -3,7 +3,9 @@ import { Content, Footer, Header } from 'antd/es/layout/layout';
 import classnames from 'classnames';
 import React, { useEffect } from 'react';
 import CountUp from 'react-countup';
+import MyEcharts from './echarts.ts/Echarts';
 import styles from './index.module.css';
+import MyTabs from './tabs';
 import { profile } from '@/api/service/user';
 import avator from '@/assets/avator.jpeg';
 import SideBar from '@/components/SideBar';
@@ -29,7 +31,7 @@ const Home = () => {
   return (
     <Layout hasSider>
       <SideBar />
-      <Layout style={{ marginLeft: 200 }}>
+      <Layout style={{ height: '100vh', marginLeft: 200 }}>
         <Header
           className={styles.header}
           style={{
@@ -64,25 +66,20 @@ const Home = () => {
             </Col>
           </Row>
         </Header>
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <div
-            style={{
-              padding: 24,
-              textAlign: 'center',
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}>
-            <p>long content</p>
-            {
-              // indicates very long content
-              Array.from({ length: 100 }, (_, index) => (
-                <React.Fragment key={index}>
-                  {index % 20 === 0 && index ? 'more' : '...'}
-                  <br />
-                </React.Fragment>
-              ))
-            }
-          </div>
+        <Content
+          className={styles.content}
+          style={{
+            display: 'flex',
+            margin: '24px 16px 0',
+            overflow: 'initial',
+          }}>
+          <section className={styles.map}>
+            <h3>进八天系统访问记录</h3>
+            <MyEcharts></MyEcharts>
+          </section>
+          <section>
+            <MyTabs></MyTabs>
+          </section>
         </Content>
         <Footer style={{ textAlign: 'center' }}>
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
