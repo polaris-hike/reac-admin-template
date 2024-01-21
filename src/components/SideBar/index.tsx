@@ -10,7 +10,8 @@ import {
 import type { MenuProps } from 'antd';
 import { Button, Menu } from 'antd';
 import Sider from 'antd/es/layout/Sider';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import styles from './index.module.css';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -32,11 +33,11 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('个人主页', '1', <PieChartOutlined />),
-  getItem('组织机构', '2', <DesktopOutlined />, [
-    getItem('机构管理', '2-1'),
-    getItem('岗位管理', '2-2'),
-    getItem('用户管理', '2-3'),
+  getItem(<Link to={'/home'}>个人主页</Link>, '/home', <PieChartOutlined />),
+  getItem('组织机构', 'org', <DesktopOutlined />, [
+    getItem(<Link to={'/org/org'}>机构管理</Link>, '/org/org'),
+    getItem(<Link to={'/org/station'}>岗位管理</Link>, '/org/station'),
+    getItem(<Link to={'/org/user'}>用户管理</Link>, '/org/user'),
   ]),
   getItem('系统设置', '3', <ContainerOutlined />, [
     getItem('菜单管理', '3-1'),
@@ -51,10 +52,23 @@ const items: MenuItem[] = [
 ];
 
 const SideBar: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
+  const location = useLocation();
+
+  const selectedKeys = useMemo(() => {
+    return [location.pathname];
+  }, [location]);
+
+  const openKeys = useMemo(() => {
+    return [location.pathname.split('/')[1]];
+  }, [location]);
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
+  };
+
+  const handleSelect: MenuProps['onClick'] = (info) => {
+    console.log('info:', info);
   };
 
   return (
@@ -69,12 +83,14 @@ const SideBar: React.FC = () => {
       }}>
       <div className="demo-logo-vertical" />
       <Menu
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={selectedKeys}
+        defaultOpenKeys={openKeys}
         mode="inline"
         theme="dark"
         inlineCollapsed={collapsed}
         items={items}
         className={styles.menuWrapper}
+        onSelect={handleSelect}
       />
     </Sider>
   );

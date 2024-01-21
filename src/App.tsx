@@ -1,8 +1,10 @@
 import { StyleProvider } from '@ant-design/cssinjs';
-import { ConfigProvider, theme, App as AntdApp } from 'antd';
+import { ConfigProvider, theme, App as AntdApp, Layout } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 
+import { Routes } from 'react-router-dom';
 import Router from './components/router';
+import SideBar from './components/SideBar';
 function App() {
   return (
     <ConfigProvider

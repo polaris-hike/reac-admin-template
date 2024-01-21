@@ -6,7 +6,7 @@ import styles from './index.module.css';
 const MyTabs: React.FC = () => (
   <Tabs
     className={styles.container}
-    defaultActiveKey="2"
+    defaultActiveKey="1"
     items={[AppleOutlined, AndroidOutlined].map((Icon, i) => {
       const id = String(i + 1);
       return {
