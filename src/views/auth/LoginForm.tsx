@@ -21,7 +21,7 @@ const LoginForm = () => {
       message.success('登录成功，稍后跳转主页');
       setUserName('wuxuwei');
       setTimeout(() => {
-        navigate('/home');
+        navigate('/');
       }, 2000);
     } catch (error) {
       console.error(error);
