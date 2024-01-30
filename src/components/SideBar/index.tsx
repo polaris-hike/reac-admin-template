@@ -33,7 +33,7 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem(<Link to={'/home'}>个人主页</Link>, '/home', <PieChartOutlined />),
+  getItem(<Link to={'/'}>个人主页</Link>, '/home', <PieChartOutlined />),
   getItem('组织机构', 'org', <DesktopOutlined />, [
     getItem(<Link to={'/org/org'}>机构管理</Link>, '/org/org'),
     getItem(<Link to={'/org/station'}>岗位管理</Link>, '/org/station'),

@@ -1,11 +1,13 @@
+import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import { Root } from './Root';
-import Login from '@/views/auth/Login';
-import Register from '@/views/auth/Register';
-import Home from '@/views/home';
-import OrgPage from '@/views/org/orgPage';
-import StationPage from '@/views/org/stationPage';
-import UserPage from '@/views/org/userPage';
+
+const Login = React.lazy(() => import('@/views/auth/Login'));
+const Register = React.lazy(() => import('@/views/auth/Register'));
+const Home = React.lazy(() => import('@/views/home'));
+const OrgPage = React.lazy(() => import('@/views/org/orgPage'));
+const StationPage = React.lazy(() => import('@/views/org/stationPage'));
+const UserPage = React.lazy(() => import('@/views/org/userPage'));
 
 const router = createBrowserRouter([
   {
@@ -13,28 +15,52 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: '/home',
-        element: <Home />,
+        index: true,
+        element: (
+          <React.Suspense fallback={<>...</>}>
+            <Home />
+          </React.Suspense>
+        ),
       },
       {
         path: '/login',
-        element: <Login />,
+        element: (
+          <React.Suspense fallback={<>...</>}>
+            <Login />
+          </React.Suspense>
+        ),
       },
       {
         path: '/register',
-        element: <Register />,
+        element: (
+          <React.Suspense fallback={<>...</>}>
+            <Register />
+          </React.Suspense>
+        ),
       },
       {
         path: '/org/org',
-        element: <OrgPage />,
+        element: (
+          <React.Suspense fallback={<>...</>}>
+            <OrgPage />
+          </React.Suspense>
+        ),
       },
       {
         path: '/org/station',
-        element: <StationPage />,
+        element: (
+          <React.Suspense fallback={<>...</>}>
+            <StationPage />
+          </React.Suspense>
+        ),
       },
       {
         path: '/org/user',
-        element: <UserPage />,
+        element: (
+          <React.Suspense fallback={<>...</>}>
+            <UserPage />
+          </React.Suspense>
+        ),
       },
     ],
   },
