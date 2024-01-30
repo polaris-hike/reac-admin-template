@@ -67,10 +67,6 @@ const SideBar: React.FC = () => {
     setCollapsed(!collapsed);
   };
 
-  const handleSelect: MenuProps['onClick'] = (info) => {
-    console.log('info:', info);
-  };
-
   return (
     <Sider
       style={{
@@ -90,7 +86,6 @@ const SideBar: React.FC = () => {
         inlineCollapsed={collapsed}
         items={items}
         className={styles.menuWrapper}
-        onSelect={handleSelect}
       />
     </Sider>
   );

@@ -1,10 +1,13 @@
+import { useQuery } from '@tanstack/react-query';
 import { commonRequest } from './axios';
 
-export async function getOrgTree() {
-  const response = await commonRequest.get(`/org/tree`);
-
-  return response.data;
-}
+export const useOrgTree = () => {
+  return useQuery({
+    queryKey: [],
+    queryFn: () =>
+      commonRequest.get('/org/tree').then((response) => response.data),
+  });
+};
 
 export async function getOrgTreeById(id: string) {
   const response = await commonRequest.get(`/org/${id}`);

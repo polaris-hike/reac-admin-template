@@ -5,9 +5,9 @@ import styles from './index.module.css';
 import {
   addOrgTree,
   deleteOrgTreeById,
-  getOrgTree,
   getOrgTreeById,
   updateOrgTree,
+  useOrgTree,
 } from '@/api/service/org';
 
 interface orgEditType {
@@ -49,12 +49,19 @@ const OrgPage: React.FC = () => {
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>(['0-0-0']);
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
-  const [treeData, setTreeData] = useState<TreeDataNode[]>([]);
+  // const [treeData, setTreeData] = useState<TreeDataNode[]>([]);
   const [form] = Form.useForm<orgEditType>();
   const [cardStatus, setCardStatus] = useState<'add' | 'update' | 'delete'>(
     'add'
   );
+  const {
+    data: treeData,
+    isLoading: treeDataLoading,
+    refetch: treeDataRefetch,
+  } = useOrgTree();
 
+  console.log('treeDataLoading:', treeDataLoading);
+  console.log('treeData:', treeData);
   const onExpand = (expandedKeysValue: React.Key[]) => {
     console.log('onExpand', expandedKeysValue);
     setExpandedKeys(expandedKeysValue);
@@ -112,35 +119,21 @@ const OrgPage: React.FC = () => {
           name: data.name,
           parent: data.parentId || data.id || null,
         });
-        refreshTreeData();
+        treeDataRefetch();
         break;
       case 'update':
         await updateOrgTree({
           name: data.name,
           id: data.id,
         });
-        refreshTreeData();
+        treeDataRefetch();
         break;
       case 'delete':
         await deleteOrgTreeById(data.id);
-        refreshTreeData();
+        treeDataRefetch();
         break;
     }
   };
-
-  const refreshTreeData = () => {
-    getOrgTree().then((res: any) => {
-      const _treeData = transformData(res);
-      setTreeData(_treeData);
-    });
-  };
-
-  useEffect(() => {
-    getOrgTree().then((res: any) => {
-      const _treeData = transformData(res);
-      setTreeData(_treeData);
-    });
-  }, []);
 
   return (
     <div>
@@ -175,18 +168,22 @@ const OrgPage: React.FC = () => {
           margin: 0,
         }}>
         <Col className="gutter-row" span={12}>
-          <Tree
-            checkable
-            checkStrictly
-            onExpand={onExpand}
-            expandedKeys={expandedKeys}
-            autoExpandParent={autoExpandParent}
-            onCheck={onCheck}
-            checkedKeys={checkedKeys}
-            onSelect={onSelect}
-            selectedKeys={selectedKeys}
-            treeData={treeData}
-          />
+          {treeDataLoading ? (
+            <span>loading..</span>
+          ) : (
+            <Tree
+              checkable
+              checkStrictly
+              onExpand={onExpand}
+              expandedKeys={expandedKeys}
+              autoExpandParent={autoExpandParent}
+              onCheck={onCheck}
+              checkedKeys={checkedKeys}
+              onSelect={onSelect}
+              selectedKeys={selectedKeys}
+              treeData={transformData(treeData)}
+            />
+          )}
         </Col>
         <Col className="gutter-row" span={12}>
           <Card title={cardStatus} bordered={false}>
