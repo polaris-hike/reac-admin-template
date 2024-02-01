@@ -14,6 +14,8 @@ import type { TableColumnsType } from 'antd';
 import locale from 'antd/es/date-picker/locale/en_US';
 import React, { useState } from 'react';
 import styles from './index.module.css';
+import PostUserModal from './PostUserModal';
+import { PostModalState, usePostModalStore } from './store';
 
 interface DataType {
   key: React.Key;
@@ -121,6 +123,7 @@ const UserPage = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  const { setOpen } = usePostModalStore<PostModalState>((state) => state);
 
   const start = () => {
     setLoading(true);
@@ -143,7 +146,7 @@ const UserPage = () => {
     //
   };
   const onOpenFormHandler = () => {
-    //
+    setOpen(true);
   };
   const batchDelHandler = () => {
     //
@@ -203,7 +206,7 @@ const UserPage = () => {
             </Button>
           </Col>
           <Col span={2}>
-            <Button type="primary" onClick={() => onOpenFormHandler()}>
+            <Button type="primary" onClick={onOpenFormHandler}>
               添加
             </Button>
           </Col>
@@ -227,6 +230,8 @@ const UserPage = () => {
         </span>
       </div> */}
       <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+
+      <PostUserModal />
     </>
   );
 };
