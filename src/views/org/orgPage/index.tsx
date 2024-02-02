@@ -1,6 +1,6 @@
 import { Button, Card, Col, Form, Input, Row, Space, Tree } from 'antd';
-import type { TreeDataNode, FormInstance } from 'antd';
-import React, { useEffect, useState } from 'react';
+import type { FormInstance } from 'antd';
+import React, { useState } from 'react';
 import styles from './index.module.css';
 import {
   addOrgTree,
@@ -9,6 +9,7 @@ import {
   updateOrgTree,
   useOrgTree,
 } from '@/api/service/org';
+import { transformData } from '@/utils';
 
 interface orgEditType {
   name: string;
@@ -42,14 +43,10 @@ const SubmitButton = ({ form }: { form: FormInstance }) => {
 };
 
 const OrgPage: React.FC = () => {
-  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([
-    '0-0-0',
-    '0-0-1',
-  ]);
-  const [checkedKeys, setCheckedKeys] = useState<React.Key[]>(['0-0-0']);
+  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+  const [checkedKeys, setCheckedKeys] = useState<React.Key[]>(['']);
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
   const [autoExpandParent, setAutoExpandParent] = useState<boolean>(true);
-  // const [treeData, setTreeData] = useState<TreeDataNode[]>([]);
   const [form] = Form.useForm<orgEditType>();
   const [cardStatus, setCardStatus] = useState<'add' | 'update' | 'delete'>(
     'add'
@@ -60,16 +57,12 @@ const OrgPage: React.FC = () => {
     refetch: treeDataRefetch,
   } = useOrgTree();
 
-  console.log('treeDataLoading:', treeDataLoading);
-  console.log('treeData:', treeData);
   const onExpand = (expandedKeysValue: React.Key[]) => {
-    console.log('onExpand', expandedKeysValue);
     setExpandedKeys(expandedKeysValue);
     setAutoExpandParent(false);
   };
 
   const onCheck = (checkedKeysValue: React.Key[]) => {
-    console.log('onCheck', checkedKeysValue);
     setCheckedKeys(checkedKeysValue);
   };
 
@@ -84,7 +77,6 @@ const OrgPage: React.FC = () => {
       parentId: detail?.parent?.id || '',
     });
     setCardStatus('update');
-    console.log('detail:', detail);
   };
 
   const resetHandler = () => {
@@ -97,19 +89,6 @@ const OrgPage: React.FC = () => {
 
   const addHandler = () => {
     setCardStatus('add');
-  };
-
-  const transformData = (data: any) => {
-    const res: any = [];
-    data.forEach((item: any) => {
-      const newObj = {
-        title: item.name,
-        key: item.id,
-        children: transformData(item.children),
-      };
-      res.push(newObj);
-    });
-    return res;
   };
 
   const onFinish = async (data: any) => {
