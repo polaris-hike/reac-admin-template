@@ -1,4 +1,5 @@
 import { DownOutlined } from '@ant-design/icons';
+import { useQueryClient } from '@tanstack/react-query';
 import {
   Button,
   Col,
@@ -14,6 +15,10 @@ import type { TableColumnsType } from 'antd';
 import locale from 'antd/es/date-picker/locale/en_US';
 import React, { useState } from 'react';
 import styles from './index.module.css';
+import PostStationModal from './PostStationModal';
+import { PostStationModalState, usePostStationModalStore } from './store';
+import { useOrgTree } from '@/api/service/org';
+import { transformData } from '@/utils';
 
 interface DataType {
   key: React.Key;
@@ -37,64 +42,13 @@ const columns: TableColumnsType<DataType> = [
   },
 ];
 
-const data: DataType[] = [];
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    age: 32,
-    address: `London, Park Lane no. ${i}`,
-  });
-}
-
-const treeData = [
-  {
-    title: '北京万家灯火科技有限公司',
-    key: '0-0',
-    children: [
-      {
-        title: '运营部',
-        key: '0-0-0',
-        children: [
-          { title: '0-0-0-0', key: '0-0-0-0' },
-          { title: '0-0-0-1', key: '0-0-0-1' },
-          { title: '0-0-0-2', key: '0-0-0-2' },
-        ],
-      },
-      {
-        title: '市场部',
-        key: '0-0-1',
-        children: [
-          { title: '0-0-1-0', key: '0-0-1-0' },
-          { title: '0-0-1-1', key: '0-0-1-1' },
-          { title: '0-0-1-2', key: '0-0-1-2' },
-        ],
-      },
-      {
-        title: '语音部',
-        key: '0-0-2',
-      },
-    ],
-  },
-  {
-    title: '重庆泛络科技有限公司',
-    key: '0-1',
-    children: [{ title: '开发部', key: '0-1-0-0' }],
-  },
-];
 const StationPage = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
-  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
-
-  const start = () => {
-    setLoading(true);
-    // ajax request after empty completing
-    setTimeout(() => {
-      setSelectedRowKeys([]);
-      setLoading(false);
-    }, 1000);
-  };
+  const { setOpen } = usePostStationModalStore<PostStationModalState>(
+    (state) => state
+  );
+  const { data: treeData, isLoading: orgTreeLoading } = useOrgTree();
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
@@ -108,7 +62,7 @@ const StationPage = () => {
     //
   };
   const onOpenFormHandler = () => {
-    //
+    setOpen(true);
   };
   const batchDelHandler = () => {
     //
@@ -118,7 +72,6 @@ const StationPage = () => {
     selectedRowKeys,
     onChange: onSelectChange,
   };
-  const hasSelected = selectedRowKeys.length > 0;
 
   return (
     <>
@@ -132,18 +85,20 @@ const StationPage = () => {
           </Col>
           <Col span={4}>
             <Form.Item name="orgId">
-              <TreeSelect
-                showSearch
-                style={{ width: '100%' }}
-                // value={treeValue}
-                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                placeholder="机构"
-                allowClear
-                treeDefaultExpandAll
-                // onChange={onChange}
-                treeData={treeData}
-                fieldNames={{ value: 'id' }}
-              />
+              {!orgTreeLoading && (
+                <TreeSelect
+                  showSearch
+                  style={{ width: '100%' }}
+                  // value={treeValue}
+                  dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                  placeholder="机构"
+                  allowClear
+                  treeDefaultExpandAll
+                  // onChange={onChange}
+                  treeData={transformData(treeData)}
+                  // fieldNames={{ value: 'id' }}
+                />
+              )}
             </Form.Item>
           </Col>
           <Col span={4}>
@@ -168,7 +123,7 @@ const StationPage = () => {
             </Button>
           </Col>
           <Col span={2}>
-            <Button type="primary" onClick={() => onOpenFormHandler()}>
+            <Button type="primary" onClick={onOpenFormHandler}>
               添加
             </Button>
           </Col>
@@ -191,7 +146,8 @@ const StationPage = () => {
           {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
         </span>
       </div> */}
-      <Table rowSelection={rowSelection} columns={columns} dataSource={data} />
+      <Table rowSelection={rowSelection} columns={columns} />
+      <PostStationModal />
     </>
   );
 };

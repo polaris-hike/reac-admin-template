@@ -3,7 +3,7 @@ import { commonRequest } from './axios';
 
 export const useOrgTree = () => {
   return useQuery({
-    queryKey: [],
+    queryKey: ['getOrgTree'],
     queryFn: () =>
       commonRequest.get('/org/tree').then((response) => response.data),
   });
