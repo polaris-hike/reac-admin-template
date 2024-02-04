@@ -32,3 +32,18 @@ export async function updateOrgTree(data: any) {
 
   return response.data;
 }
+
+// orgStation
+export function useOrgStation() {
+  return useQuery({
+    queryKey: ['getOrgStation'],
+    queryFn: () =>
+      commonRequest.get('/org/station').then((response) => response.data),
+  });
+}
+
+export async function addOrgStation(data: any) {
+  const response = await commonRequest.post(`/org/station`, data);
+
+  return response.data;
+}
