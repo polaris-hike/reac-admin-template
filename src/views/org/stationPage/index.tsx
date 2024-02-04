@@ -17,7 +17,7 @@ import React, { useState } from 'react';
 import styles from './index.module.css';
 import PostStationModal from './PostStationModal';
 import { PostStationModalState, usePostStationModalStore } from './store';
-import { useOrgTree } from '@/api/service/org';
+import { useOrgStation, useOrgTree } from '@/api/service/org';
 import { transformData } from '@/utils';
 
 interface DataType {
@@ -33,12 +33,12 @@ const columns: TableColumnsType<DataType> = [
     dataIndex: 'name',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
+    title: 'OrgId',
+    dataIndex: 'orgId',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
+    title: 'Description',
+    dataIndex: 'description',
   },
 ];
 
@@ -49,6 +49,9 @@ const StationPage = () => {
     (state) => state
   );
   const { data: treeData, isLoading: orgTreeLoading } = useOrgTree();
+  const { data: orgData, isLoading: orgStationLoading } = useOrgStation();
+
+  console.log('orgData:', orgData);
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
@@ -146,7 +149,14 @@ const StationPage = () => {
           {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
         </span>
       </div> */}
-      <Table rowSelection={rowSelection} columns={columns} />
+      {orgData && (
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={orgData}
+        />
+      )}
+
       <PostStationModal />
     </>
   );
